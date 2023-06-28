@@ -91,7 +91,6 @@ async function digOre(player, dimension, location, blockTypeId) {
       // Asynchronous execution to reduce game lag and game crashes
       await new Promise((resolve) => {
         _block.setType(MinecraftBlockTypes.air)
-        dimension.spawnEntity('xp_orb', player.location)
         resolve()
       })
 
@@ -122,6 +121,11 @@ async function digOre(player, dimension, location, blockTypeId) {
   for (let i = 0; i < set.size; i++) {
     oreMap.xp += getRandomRangeValue(...ore.xp)
     oreMap.item += getRandomRangeValue(...ore.probability)
+  }
+
+  // spawn experience orbs
+  for (let i = 0; i < oreMap.xp; i++) {
+    dimension.spawnEntity('xp_orb', player.location)
   }
 
   // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
