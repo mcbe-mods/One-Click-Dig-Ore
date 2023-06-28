@@ -1,0 +1,80 @@
+<style>
+  @font-face {
+    font-family: 'minecraft';
+    src: url(./minecraft.ttf);
+  }
+  * {
+    padding: 0;
+    margin: 0;
+    font-family: minecraft;
+  }
+
+  body {
+    width: 100%;
+    background-image: url(./background.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    text-align: center;
+    color: #00c4b6;
+    width: 100%;
+    font-size: 80;
+    z-index: 100;
+    text-shadow: 1px 1px #006b64, 2px 2px #006b64, 3px 3px #006b64, 4px 4px #006b64, 5px 5px #006b64,
+      20px 20px 16px #000;
+  }
+  .imgs {
+    margin-top: 40px;
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    image-rendering: pixelated;
+  }
+  .iron_pickaxe {
+    transform: scale(20);
+    position: absolute;
+    top: 40%;
+    left: 26%;
+  }
+
+  .diamond_ore,
+  .diamond_ore_blur {
+    transform: scale(16);
+    position: absolute;
+    top: 50%;
+    left: 66%;
+  }
+
+  .diamond_ore_blur {
+    z-index: -1;
+    filter: blur(2px) saturate(2);
+    transform: scale(20);
+  }
+</style>
+
+<div class="container">
+  <div class="title">One Click Dig Ore</div>
+  <div class="imgs">
+    <img src="./iron_pickaxe.png" class="iron_pickaxe" />
+    <div class="diamond_ore_bg">
+      <img src="./diamond_ore.png" class="diamond_ore" />
+      <img src="./diamond_ore.png" class="diamond_ore_blur" />
+    </div>
+  </div>
+</div>
