@@ -13,7 +13,7 @@ const gold = {
 }
 
 const nether_gold = {
-  item: MinecraftItemTypes.goldIngot,
+  item: MinecraftItemTypes.goldNugget,
   xp: [0, 1],
   probability: [2, 6]
 }
