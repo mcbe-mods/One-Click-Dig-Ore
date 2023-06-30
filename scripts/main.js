@@ -102,7 +102,7 @@ async function digOre(player, dimension, location, blockTypeId) {
   }
 
   /** @type { { item: ItemType; xp: number[]; probability: number[]; }; } */
-  const _ore = ore_map[blockTypeId]
+  const _ore = ore_map[blockTypeId] || { item: MinecraftBlockTypes.air, xp: [0, 0], probability: [0, 0] }
   // Avoid modifying reference types
   const ore = {
     item: _ore.item,
@@ -139,6 +139,6 @@ async function digOre(player, dimension, location, blockTypeId) {
     const damage = Math.ceil((itemMaxDamage * 1) / (1 + unbreaking))
     itemDurability.damage = damage > itemDurability.maxDurability ? itemDurability.maxDurability : damage
     inventory.container.setItem(currentSlot, currentSlotItem)
-    pickaxeSlot.lockMode = 'none'
   }
+  pickaxeSlot.lockMode = 'none'
 }
