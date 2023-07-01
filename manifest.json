@@ -4,7 +4,7 @@
     "description": "Made By: Lete114\nGithub: Lete114\nRepo: https://github.com/mcbe-mods/One-Click-Dig-Ore",
     "name": "One Click Dig Ore",
     "uuid": "90ce7a3b-8477-49cf-9d35-7e56b27f7e9c",
-    "version": [0, 0, 3],
+    "version": [0, 0, 4],
     "min_engine_version": [1, 20, 0]
   },
   "modules": [
@@ -13,7 +13,7 @@
       "language": "javascript",
       "type": "script",
       "uuid": "c947417b-7bc9-4c35-85dc-2eafc2579200",
-      "version": [0, 0, 3],
+      "version": [0, 0, 4],
       "entry": "scripts/main.js"
     }
   ],
