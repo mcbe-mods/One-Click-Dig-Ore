@@ -12,6 +12,7 @@ const gold = {
   probability: [1, 1]
 }
 
+// eslint-disable-next-line camelcase
 const nether_gold = {
   item: MinecraftItemTypes.goldNugget,
   xp: [0, 1],
@@ -64,6 +65,7 @@ export default {
   'minecraft:deepslate_iron_ore': iron,
   'minecraft:gold_ore': gold,
   'minecraft:deepslate_gold_ore': gold,
+  // eslint-disable-next-line camelcase
   'minecraft:nether_gold_ore': nether_gold,
   'minecraft:diamond_ore': diamond,
   'minecraft:deepslate_diamond_ore': diamond,

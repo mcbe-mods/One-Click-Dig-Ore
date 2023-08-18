@@ -1,10 +1,10 @@
 {
   "format_version": 2,
   "header": {
-    "description": "Made By: Lete114\nGithub Repo: https://github.com/mcbe-mods/One-Click-Dig-Ore",
-    "name": "One Click Dig Ore",
+    "description": "pack.description",
+    "name": "pack.name",
     "uuid": "90ce7a3b-8477-49cf-9d35-7e56b27f7e9c",
-    "version": [0, 0, 4],
+    "version": [1, 0, 0],
     "min_engine_version": [1, 20, 0]
   },
   "modules": [
@@ -13,10 +13,15 @@
       "language": "javascript",
       "type": "script",
       "uuid": "c947417b-7bc9-4c35-85dc-2eafc2579200",
-      "version": [0, 0, 4],
+      "version": [1, 0, 0],
       "entry": "scripts/main.js"
     }
   ],
+  "metadata": {
+    "authors": ["Lete114"],
+    "license": "GPL-2.0",
+    "url": "https://github.com/mcbe-mods/One-Click-Dig-Ore"
+  },
   "dependencies": [
     {
       "module_name": "@minecraft/server",

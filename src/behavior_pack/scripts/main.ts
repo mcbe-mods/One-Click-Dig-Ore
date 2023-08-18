@@ -1,22 +1,18 @@
-import {
-  world,
-  Dimension,
-  ItemStack,
+/* eslint-disable max-depth */
+/* eslint-disable camelcase */
+import { world, ItemStack, MinecraftBlockTypes, ItemLockMode } from '@minecraft/server'
+import type {
   Player,
+  Vector3,
+  Dimension,
   EntityInventoryComponent,
   ItemDurabilityComponent,
-  ItemEnchantsComponent,
-  MinecraftBlockTypes,
-  MinecraftItemTypes
+  ItemEnchantsComponent
 } from '@minecraft/server'
 
 import { getBlockNear, splitGroups, isSurvivalPlayer, getRandomRangeValue } from './utils'
 import pickaxe_level from './pickaxe_level'
 import ore_map from './ore_map'
-
-/**
- * @typedef { {x: number; y: number; z: number} } Location
- */
 
 world.afterEvents.blockBreak.subscribe(async (e) => {
   const { dimension, player, block } = e
@@ -29,17 +25,20 @@ world.afterEvents.blockBreak.subscribe(async (e) => {
  *
  * @param {Player} player
  * @param {Dimension} dimension
- * @param {Location} location
+ * @param {Vector3} location
  * @param {string} blockTypeId
  * @returns
  */
-async function digOre(player, dimension, location, blockTypeId) {
+// eslint-disable-next-line max-statements
+async function digOre(player: Player, dimension: Dimension, location: Vector3, blockTypeId: string) {
   const currentSlot = player.selectedSlot
-  /** @type {EntityInventoryComponent} */
-  const inventory = player.getComponent('inventory')
+  const inventory = player.getComponent('inventory') as EntityInventoryComponent
+
   const currentSlotItem = inventory.container.getItem(currentSlot)
+  if (!currentSlotItem) return
+
   const pickaxeSlot = inventory.container.getSlot(currentSlot)
-  const pickaxe = pickaxe_level[currentSlotItem.typeId]
+  const pickaxe = pickaxe_level[currentSlotItem.typeId as keyof typeof pickaxe_level]
 
   // The player is not stalking or not holding an axe, one of the conditions is not met will end directly
   if (!player.isSneaking || !currentSlotItem?.typeId.endsWith('_pickaxe')) return
@@ -47,12 +46,12 @@ async function digOre(player, dimension, location, blockTypeId) {
   try {
     const survivalPlayer = isSurvivalPlayer(dimension, player)
 
-    if (survivalPlayer) pickaxeSlot.lockMode = 'slot'
+    if (survivalPlayer) pickaxeSlot.lockMode = ItemLockMode.slot
 
     /** @type {ItemDurabilityComponent} */
-    const itemDurability = currentSlotItem.getComponent('minecraft:durability')
+    const itemDurability = currentSlotItem.getComponent('minecraft:durability') as ItemDurabilityComponent
     /** @type {ItemEnchantsComponent} */
-    const enchantments = currentSlotItem.getComponent('minecraft:enchantments')
+    const enchantments = currentSlotItem.getComponent('minecraft:enchantments') as ItemEnchantsComponent
     const unbreaking = enchantments.enchantments.hasEnchantment('unbreaking')
     const silk_touch = enchantments.enchantments.hasEnchantment('silk_touch')
     const fortune = enchantments.enchantments.hasEnchantment('fortune')
@@ -90,7 +89,7 @@ async function digOre(player, dimension, location, blockTypeId) {
         }
 
         // Asynchronous execution to reduce game lag and game crashes
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           _block.setType(MinecraftBlockTypes.air)
           resolve()
         })
@@ -102,8 +101,11 @@ async function digOre(player, dimension, location, blockTypeId) {
       }
     }
 
-    /** @type { { item: ItemType; xp: number[]; probability: number[]; }; } */
-    const _ore = ore_map[blockTypeId] || { item: MinecraftBlockTypes.air, xp: [0, 0], probability: [0, 0] }
+    const _ore = ore_map[blockTypeId as keyof typeof ore_map] || {
+      item: MinecraftBlockTypes.air,
+      xp: [0, 0],
+      probability: [0, 0]
+    }
     // Avoid modifying reference types
     const ore = {
       item: _ore.item,
@@ -113,15 +115,15 @@ async function digOre(player, dimension, location, blockTypeId) {
 
     // add fortune
     if (fortune) {
-      const maxProbability = ore.probability.pop()
+      const maxProbability = ore.probability.pop() as number
       ore.probability.push(maxProbability + fortune)
     }
 
     // Calculate the probability of drops
     const oreMap = { item: 0, xp: 0 }
     for (let i = 0; i < set.size; i++) {
-      oreMap.xp += getRandomRangeValue(...ore.xp)
-      oreMap.item += getRandomRangeValue(...ore.probability)
+      oreMap.xp += getRandomRangeValue(ore.xp[0], ore.xp[1])
+      oreMap.item += getRandomRangeValue(ore.probability[0], ore.probability[1])
     }
 
     // spawn experience orbs
@@ -142,12 +144,13 @@ async function digOre(player, dimension, location, blockTypeId) {
       inventory.container.setItem(currentSlot, currentSlotItem)
     }
   } catch (_error) {
-    /** @type {Error} */
-    const error = _error
+    /* eslint-disable no-console */
+    const error = _error as Error
     console.error(error.name)
     console.error(error.message)
     console.error(error)
+    /* eslint-enable no-console */
   } finally {
-    pickaxeSlot.lockMode = 'none'
+    pickaxeSlot.lockMode = ItemLockMode.none
   }
 }

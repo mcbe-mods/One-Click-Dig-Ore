@@ -1,7 +1,7 @@
 # One Click Dig Ore
 
 <p align="center">
-<img src="pack_icon.png" style="width: 80%;">
+<img src="src/behavior_pack/pack_icon.png" style="width: 80%;">
 </p>
 
 ## Download

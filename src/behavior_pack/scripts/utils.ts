@@ -1,4 +1,5 @@
-import { Dimension, Player } from '@minecraft/server'
+import type { Dimension, Player, Vector3, Block } from '@minecraft/server'
+import { GameMode } from '@minecraft/server'
 
 /**
  *
@@ -6,7 +7,7 @@ import { Dimension, Player } from '@minecraft/server'
  * @param {number} max
  * @returns
  */
-export function getRandomRangeValue(min, max) {
+export function getRandomRangeValue(min: number, max: number) {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -18,8 +19,8 @@ export function getRandomRangeValue(min, max) {
  * @param {Player} player
  * @returns
  */
-export function isSurvivalPlayer(dimension, player) {
-  return dimension.getPlayers({ gameMode: 'survival' }).some((p) => p.name === player.name)
+export function isSurvivalPlayer(dimension: Dimension, player: Player) {
+  return dimension.getPlayers({ gameMode: GameMode.survival }).some((p) => p.name === player.name)
 }
 
 /**
@@ -27,7 +28,7 @@ export function isSurvivalPlayer(dimension, player) {
  * @param {number} probability
  * @returns
  */
-export function simulateProbability(probability) {
+export function simulateProbability(probability: number) {
   return Math.random() < probability / 100
 }
 
@@ -37,8 +38,8 @@ export function simulateProbability(probability) {
  * @param {number} groupSize
  * @returns
  */
-export function splitGroups(number, groupSize = 64) {
-  const groups = []
+export function splitGroups(number: number, groupSize = 64) {
+  const groups: number[] = []
   while (number > 0) {
     const group = Math.min(number, groupSize)
     groups.push(group)
@@ -50,36 +51,36 @@ export function splitGroups(number, groupSize = 64) {
 /**
  *
  * @param { Dimension } dimension
- * @param { Location } location
+ * @param { Vector3 } location
  * @param { number } [radius=1]
  * @returns
  */
-export function getBlockNear(dimension, location, radius = 1) {
+export function getBlockNear(dimension: Dimension, location: Vector3, radius = 1) {
   const centerX = location.x
   const centerY = location.y
   const centerZ = location.z
 
   /*
       Store a 3x3 list of square objects centered on the current square coordinates
-  
+
       Top view: 0 is the current square, get the coordinates of all 1's
-  
+
       First floor
       111
       111
       111
-  
+
       Second layer
       111
       101
       111
-  
+
       Third layer
       111
       111
       111
       */
-  const positions = []
+  const positions: (Block | undefined)[] = []
 
   for (let x = centerX - radius; x <= centerX + radius; x++) {
     for (let y = centerY - radius; y <= centerY + radius; y++) {
