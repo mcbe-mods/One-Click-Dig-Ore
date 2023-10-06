@@ -27,6 +27,7 @@ const NPM = process.platform === 'win32' ? 'npm.cmd' : 'npm'
 if (existsSync(BPPath)) chokidar.watch(BPPath).on('change', throttle(handler))
 if (existsSync(RPPath)) chokidar.watch(RPPath).on('change', throttle(handler))
 
+handler()
 function handler() {
   spawnSync(NPM, ['run', 'builds'], { encoding: 'utf-8', stdio: 'inherit' })
   if (game === 'game') {

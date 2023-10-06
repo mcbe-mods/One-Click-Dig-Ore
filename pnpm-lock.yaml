@@ -1,9 +1,13 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@mcbe-mods/utils':
-    specifier: ^0.0.4
-    version: 0.0.4
+    specifier: ^0.1.1
+    version: 0.1.1
 
 devDependencies:
   '@minecraft/server':
@@ -119,13 +123,19 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@mcbe-mods/utils@0.0.4:
-    resolution: {integrity: sha512-QQ/fWTgi8BXhvdxUFwsiAobBwxTgicWmqhCjrhKUeBd1sxQhJr4MFr4YXio0TCRIzmKt/FcAb65JhMp3tCQIkg==}
+  /@mcbe-mods/utils@0.1.1:
+    resolution: {integrity: sha512-mXGzkyDUqS6IKDhOhW1l+OF0bQtW+U6bb+RcOZwX/H70Tbh6Ro0C4ZifihMLHUqo5lOcmvok0vjkuYJ+NQSMGQ==}
+    dependencies:
+      '@minecraft/server': 1.5.0
     dev: false
 
   /@minecraft/server@1.4.0-beta.1.20.10-stable:
     resolution: {integrity: sha512-GFxR3rc83fLG4G1QV51D6a7V1EylomZrUMO1oUNINhkMpNBe2ACA9CBpLpkixxg0Y3aDpUnTkuhjQpoMnekPSA==}
     dev: true
+
+  /@minecraft/server@1.5.0:
+    resolution: {integrity: sha512-4R50srYzksXaOXZp1M4RkQ9KMw26F3Y3YC+YEInFpIjVmQr9OEitAgjUm4+mmIRwxuh7JsuBcE5yinDpYx59/g==}
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}

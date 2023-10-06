@@ -34,6 +34,6 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "@mcbe-mods/utils": "^0.0.4"
+    "@mcbe-mods/utils": "^0.1.1"
   }
 }

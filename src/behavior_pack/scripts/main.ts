@@ -48,9 +48,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
 
     if (survivalPlayer) pickaxeSlot.lockMode = ItemLockMode.slot
 
-    /** @type {ItemDurabilityComponent} */
     const itemDurability = currentSlotItem.getComponent('minecraft:durability') as ItemDurabilityComponent
-    /** @type {ItemEnchantsComponent} */
     const enchantments = currentSlotItem.getComponent('minecraft:enchantments') as ItemEnchantsComponent
     const unbreaking = enchantments.enchantments.hasEnchantment('unbreaking')
     const silk_touch = enchantments.enchantments.hasEnchantment('silk_touch')
