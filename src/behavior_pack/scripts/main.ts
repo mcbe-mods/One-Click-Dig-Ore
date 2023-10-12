@@ -1,6 +1,6 @@
 /* eslint-disable max-depth */
 /* eslint-disable camelcase */
-import { world, ItemStack, MinecraftBlockTypes, ItemLockMode } from '@minecraft/server'
+import { world, ItemStack, MinecraftBlockTypes, ItemLockMode, GameMode } from '@minecraft/server'
 import type {
   Player,
   Vector3,
@@ -9,10 +9,13 @@ import type {
   ItemDurabilityComponent,
   ItemEnchantsComponent
 } from '@minecraft/server'
+import { splitGroups, getRandomRangeValue, getRadiusRange } from '@mcbe-mods/utils'
 
-import { getBlockNear, splitGroups, isSurvivalPlayer, getRandomRangeValue } from './utils'
 import pickaxe_level from './pickaxe_level'
 import ore_map from './ore_map'
+
+const isSurvivalPlayer = (dimension: Dimension, player: Player) =>
+  dimension.getPlayers({ gameMode: GameMode.survival }).some((p) => p.name === player.name)
 
 world.afterEvents.blockBreak.subscribe(async (e) => {
   const { dimension, player, block } = e
@@ -63,11 +66,11 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
      */
     const set = new Set()
 
-    const stack = [...getBlockNear(dimension, location)]
+    const stack = [...getRadiusRange(location)]
     // Iterative processing of proximity squares
     while (stack.length > 0) {
       // Get from the last one (will modify the original array)
-      const _block = stack.shift()
+      const _block = dimension.getBlock(stack.shift()!)
 
       if (!_block) continue
 
@@ -95,7 +98,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
         set.add(pos)
 
         // Get the squares adjacent to the new wood to append to the iteration stack
-        stack.push(...getBlockNear(dimension, _block.location))
+        stack.push(...getRadiusRange(_block.location))
       }
     }
 
