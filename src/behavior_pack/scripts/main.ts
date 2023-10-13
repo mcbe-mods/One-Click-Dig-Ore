@@ -1,6 +1,6 @@
 /* eslint-disable max-depth */
 /* eslint-disable camelcase */
-import { world, ItemStack, MinecraftBlockTypes, ItemLockMode, GameMode } from '@minecraft/server'
+import { world, ItemStack, ItemLockMode, GameMode } from '@minecraft/server'
 import type {
   Player,
   Vector3,
@@ -17,7 +17,7 @@ import ore_map from './ore_map'
 const isSurvivalPlayer = (dimension: Dimension, player: Player) =>
   dimension.getPlayers({ gameMode: GameMode.survival }).some((p) => p.name === player.name)
 
-world.afterEvents.blockBreak.subscribe(async (e) => {
+world.afterEvents.playerBreakBlock.subscribe(async (e) => {
   const { dimension, player, block } = e
   const currentBreakBlock = e.brokenBlockPermutation
   const blockTypeId = currentBreakBlock.type.id
@@ -91,7 +91,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
 
         // Asynchronous execution to reduce game lag and game crashes
         await new Promise<void>((resolve) => {
-          _block.setType(MinecraftBlockTypes.air)
+          _block.setType('air')
           resolve()
         })
 
@@ -103,7 +103,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     }
 
     const _ore = ore_map[blockTypeId as keyof typeof ore_map] || {
-      item: MinecraftBlockTypes.air,
+      item: 'air',
       xp: [0, 0],
       probability: [0, 0]
     }

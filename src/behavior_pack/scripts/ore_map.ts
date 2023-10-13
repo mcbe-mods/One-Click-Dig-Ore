@@ -1,61 +1,59 @@
-import { MinecraftItemTypes } from '@minecraft/server'
-
 const iron = {
-  item: MinecraftItemTypes.rawIron,
+  item: 'raw_iron',
   xp: [0, 0],
   probability: [1, 1]
 }
 
 const gold = {
-  item: MinecraftItemTypes.rawGold,
+  item: 'raw_gold',
   xp: [0, 0],
   probability: [1, 1]
 }
 
 // eslint-disable-next-line camelcase
 const nether_gold = {
-  item: MinecraftItemTypes.goldNugget,
+  item: 'gold_nugget',
   xp: [0, 1],
   probability: [2, 6]
 }
 
 const diamond = {
-  item: MinecraftItemTypes.diamond,
+  item: 'diamond',
   xp: [3, 7],
   probability: [1, 1]
 }
 
 const lapis = {
-  item: MinecraftItemTypes.lapisLazuli,
+  item: 'lapis_lazuli',
   xp: [2, 5],
   probability: [4, 9]
 }
 const redstone = {
-  item: MinecraftItemTypes.redstone,
+  item: 'redstone',
   xp: [1, 5],
   probability: [4, 5]
 }
 
 const coal = {
-  item: MinecraftItemTypes.coal,
+  item: 'coal',
   xp: [0, 2],
   probability: [1, 1]
 }
 
 const copper = {
-  item: MinecraftItemTypes.rawCopper,
+  item: 'raw_copper',
   xp: [0, 0],
   probability: [2, 5]
 }
 
 const emerald = {
-  item: MinecraftItemTypes.emerald,
+  item: 'emerald',
   xp: [3, 7],
   probability: [1, 1]
 }
 
 const quartz = {
-  item: MinecraftItemTypes.quartz,
+  item: 'quartz',
   xp: [2, 5],
   probability: [1, 1]
 }
