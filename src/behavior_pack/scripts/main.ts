@@ -1,11 +1,15 @@
 /* eslint-disable max-depth */
 /* eslint-disable camelcase */
-import { world, ItemStack, ItemLockMode, GameMode } from '@minecraft/server'
-import type {
+import {
+  world,
+  ItemStack,
+  ItemLockMode,
+  GameMode,
   Player,
   Vector3,
   Dimension,
-  EntityInventoryComponent,
+  EquipmentSlot,
+  EntityEquippableComponent,
   ItemDurabilityComponent,
   ItemEnchantsComponent
 } from '@minecraft/server'
@@ -34,25 +38,29 @@ world.afterEvents.playerBreakBlock.subscribe(async (e) => {
  */
 // eslint-disable-next-line max-statements
 async function digOre(player: Player, dimension: Dimension, location: Vector3, blockTypeId: string) {
-  const currentSlot = player.selectedSlot
-  const inventory = player.getComponent('inventory') as EntityInventoryComponent
+  const equipmentInventory = player.getComponent(EntityEquippableComponent.componentId)
+  if (!equipmentInventory) return
 
-  const currentSlotItem = inventory.container.getItem(currentSlot)
-  if (!currentSlotItem) return
-
-  const pickaxeSlot = inventory.container.getSlot(currentSlot)
-  const pickaxe = pickaxe_level[currentSlotItem.typeId as keyof typeof pickaxe_level]
-
-  // The player is not stalking or not holding an axe, one of the conditions is not met will end directly
-  if (!player.isSneaking || !currentSlotItem?.typeId.endsWith('_pickaxe')) return
+  const mainHand = equipmentInventory.getEquipmentSlot(EquipmentSlot.Mainhand)
 
   try {
+    const currentSlotItem = mainHand.getItem()
+    if (!currentSlotItem) return
+
+    const pickaxe = pickaxe_level[currentSlotItem.typeId as keyof typeof pickaxe_level]
+
+    // The player is not stalking or not holding an axe, one of the conditions is not met will end directly
+    if (!player.isSneaking || !currentSlotItem?.typeId.endsWith('_pickaxe')) return
+
     const survivalPlayer = isSurvivalPlayer(dimension, player)
 
-    if (survivalPlayer) pickaxeSlot.lockMode = ItemLockMode.slot
+    if (survivalPlayer) mainHand.lockMode = ItemLockMode.slot
 
-    const itemDurability = currentSlotItem.getComponent('minecraft:durability') as ItemDurabilityComponent
-    const enchantments = currentSlotItem.getComponent('minecraft:enchantments') as ItemEnchantsComponent
+    const itemDurability = currentSlotItem.getComponent(ItemDurabilityComponent.componentId)
+    const enchantments = currentSlotItem.getComponent(ItemEnchantsComponent.componentId)
+
+    if (!enchantments || !itemDurability) return
+
     const unbreaking = enchantments.enchantments.hasEnchantment('unbreaking')
     const silk_touch = enchantments.enchantments.hasEnchantment('silk_touch')
     const fortune = enchantments.enchantments.hasEnchantment('fortune')
@@ -142,7 +150,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
       // Set axe damage level
       const damage = Math.ceil((itemMaxDamage * 1) / (1 + unbreaking))
       itemDurability.damage = damage > itemDurability.maxDurability ? itemDurability.maxDurability : damage
-      inventory.container.setItem(currentSlot, currentSlotItem)
+      mainHand.setItem(currentSlotItem)
     }
   } catch (_error) {
     /* eslint-disable no-console */
@@ -152,6 +160,6 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     console.error(error)
     /* eslint-enable no-console */
   } finally {
-    pickaxeSlot.lockMode = ItemLockMode.none
+    mainHand.lockMode = ItemLockMode.none
   }
 }
