@@ -28,7 +28,7 @@ const iron = [
   'minecraft:emerald_ore',
   'minecraft:deepslate_emerald_ore'
 ]
-const diamond = [...iron, 'minecraft:ancient_debris']
+const diamond = [...iron, 'minecraft:ancient_debris', 'minecraft:obsidian', 'minecraft:crying_obsidian']
 const netherite = diamond
 
 export default {

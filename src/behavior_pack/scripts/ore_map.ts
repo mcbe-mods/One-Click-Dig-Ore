@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const iron = {
   item: 'raw_iron',
   xp: [0, 0],
@@ -58,12 +59,23 @@ const quartz = {
   probability: [1, 1]
 }
 
+const obsidian = {
+  item: 'obsidian',
+  xp: [0, 0],
+  probability: [1, 1]
+}
+
+const crying_obsidian = {
+  item: 'crying_obsidian',
+  xp: [0, 0],
+  probability: [1, 1]
+}
+
 export default {
   'minecraft:iron_ore': iron,
   'minecraft:deepslate_iron_ore': iron,
   'minecraft:gold_ore': gold,
   'minecraft:deepslate_gold_ore': gold,
-  // eslint-disable-next-line camelcase
   'minecraft:nether_gold_ore': nether_gold,
   'minecraft:diamond_ore': diamond,
   'minecraft:deepslate_diamond_ore': diamond,
@@ -79,5 +91,7 @@ export default {
   'minecraft:deepslate_copper_ore': copper,
   'minecraft:emerald_ore': emerald,
   'minecraft:deepslate_emerald_ore': emerald,
-  'minecraft:quartz_ore': quartz
+  'minecraft:quartz_ore': quartz,
+  'minecraft:obsidian': obsidian,
+  'minecraft:crying_obsidian': crying_obsidian
 }
