@@ -68,6 +68,8 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     let itemMaxDamage = itemDurability.damage * (1 + unbreaking)
     const itemMaxDurability = itemDurability.maxDurability * (1 + unbreaking)
 
+    const blockTypeIdRemoveLit = blockTypeId.replace('lit_', '')
+
     /**
      * Store all coordinates of the same wood type
      * @type { Set<string> }
@@ -85,7 +87,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
       const typeId = _block.typeId
 
       // handle lit_redstone_ore
-      const isEqual = typeId.replace('lit_', '') === blockTypeId.replace('lit_', '')
+      const isEqual = typeId.replace('lit_', '') === blockTypeIdRemoveLit
       if (isEqual && pickaxe.includes(typeId)) {
         const pos = JSON.stringify(_block.location)
 
@@ -110,41 +112,47 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
       }
     }
 
-    const _ore = ore_map[blockTypeId as keyof typeof ore_map] || {
-      item: 'air',
-      xp: [0, 0],
-      probability: [0, 0]
-    }
-    // Avoid modifying reference types
-    const ore = {
-      item: _ore.item,
-      xp: [..._ore.xp],
-      probability: [..._ore.probability]
-    }
+    if (silk_touch) {
+      // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
+      splitGroups(set.size).forEach((group) => {
+        dimension.spawnItem(new ItemStack(blockTypeIdRemoveLit, group), location)
+      })
+    } else {
+      const _ore = ore_map[blockTypeId as keyof typeof ore_map] || {
+        item: 'air',
+        xp: [0, 0],
+        probability: [0, 0]
+      }
+      // Avoid modifying reference types
+      const ore = {
+        item: _ore.item,
+        xp: [..._ore.xp],
+        probability: [..._ore.probability]
+      }
 
-    // add fortune
-    if (fortune) {
-      const maxProbability = ore.probability.pop() as number
-      ore.probability.push(maxProbability + fortune)
-    }
+      // add fortune
+      if (fortune) {
+        const maxProbability = ore.probability.pop() as number
+        ore.probability.push(maxProbability + fortune)
+      }
 
-    // Calculate the probability of drops
-    const oreMap = { item: 0, xp: 0 }
-    for (let i = 0; i < set.size; i++) {
-      oreMap.xp += getRandomRangeValue(ore.xp[0], ore.xp[1])
-      oreMap.item += getRandomRangeValue(ore.probability[0], ore.probability[1])
-    }
+      // Calculate the probability of drops
+      const oreMap = { item: 0, xp: 0 }
+      for (let i = 0; i < set.size; i++) {
+        oreMap.xp += getRandomRangeValue(ore.xp[0], ore.xp[1])
+        oreMap.item += getRandomRangeValue(ore.probability[0], ore.probability[1])
+      }
 
-    // spawn experience orbs
-    for (let i = 0; i < oreMap.xp; i++) {
-      dimension.spawnEntity('xp_orb', player.location)
-    }
+      // spawn experience orbs
+      for (let i = 0; i < oreMap.xp; i++) {
+        dimension.spawnEntity('xp_orb', player.location)
+      }
 
-    // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
-    splitGroups(oreMap.item).forEach((group) => {
-      const item = silk_touch ? blockTypeId : ore.item
-      dimension.spawnItem(new ItemStack(item, group), location)
-    })
+      // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
+      splitGroups(oreMap.item).forEach((group) => {
+        dimension.spawnItem(new ItemStack(ore.item, group), location)
+      })
+    }
 
     if (survivalPlayer) {
       // Set axe damage level
