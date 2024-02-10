@@ -11,7 +11,7 @@ import {
   EquipmentSlot,
   EntityEquippableComponent,
   ItemDurabilityComponent,
-  ItemEnchantsComponent
+  ItemEnchantableComponent
 } from '@minecraft/server'
 import { splitGroups, getRandomRangeValue, getRadiusRange } from '@mcbe-mods/utils'
 
@@ -57,13 +57,13 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     if (survivalPlayer) mainHand.lockMode = ItemLockMode.slot
 
     const itemDurability = currentSlotItem.getComponent(ItemDurabilityComponent.componentId)
-    const enchantments = currentSlotItem.getComponent(ItemEnchantsComponent.componentId)
+    const enchantments = currentSlotItem.getComponent(ItemEnchantableComponent.componentId)
 
     if (!enchantments || !itemDurability) return
-
-    const unbreaking = enchantments.enchantments.hasEnchantment('unbreaking')
-    const silk_touch = enchantments.enchantments.hasEnchantment('silk_touch')
-    const fortune = enchantments.enchantments.hasEnchantment('fortune')
+    
+    const unbreaking = enchantments.hasEnchantment('unbreaking') && enchantments.getEnchantment('unbreaking')?.level || 0
+    const silk_touch = enchantments.hasEnchantment('silk_touch') && enchantments.getEnchantment('silk_touch')?.level || 0
+    const fortune = enchantments.hasEnchantment('fortune') && enchantments.getEnchantment('fortune')?.level || 0
     // https://minecraft.fandom.com/wiki/Unbreaking
     let itemMaxDamage = itemDurability.damage * (1 + unbreaking)
     const itemMaxDurability = itemDurability.maxDurability * (1 + unbreaking)
