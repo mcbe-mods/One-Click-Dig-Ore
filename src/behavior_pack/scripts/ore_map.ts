@@ -2,73 +2,121 @@
 const iron = {
   item: 'raw_iron',
   xp: [0, 0],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const gold = {
   item: 'raw_gold',
   xp: [0, 0],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 // eslint-disable-next-line camelcase
 const nether_gold = {
   item: 'gold_nugget',
   xp: [0, 1],
-  probability: [2, 6]
+  probability: [2, 6],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const diamond = {
   item: 'diamond',
   xp: [3, 7],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const lapis = {
   item: 'lapis_lazuli',
   xp: [2, 5],
-  probability: [4, 9]
+  probability: [4, 9],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 const redstone = {
   item: 'redstone',
   xp: [1, 5],
-  probability: [4, 5]
+  probability: [4, 5],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const coal = {
   item: 'coal',
   xp: [0, 2],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const copper = {
   item: 'raw_copper',
   xp: [0, 0],
-  probability: [2, 5]
+  probability: [2, 5],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const emerald = {
   item: 'emerald',
   xp: [3, 7],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const quartz = {
   item: 'quartz',
   xp: [2, 5],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: true,
+    silk_touch: true
+  }
 }
 
 const obsidian = {
   item: 'obsidian',
   xp: [0, 0],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: false,
+    silk_touch: true
+  }
 }
 
 const crying_obsidian = {
   item: 'crying_obsidian',
   xp: [0, 0],
-  probability: [1, 1]
+  probability: [1, 1],
+  support: {
+    fortune: false,
+    silk_touch: true
+  }
 }
 
 export default {

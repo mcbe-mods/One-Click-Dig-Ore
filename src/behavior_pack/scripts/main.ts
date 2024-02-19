@@ -112,17 +112,14 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
       }
     }
 
-    if (silk_touch) {
+    const _ore = ore_map[blockTypeId as keyof typeof ore_map]
+
+    if (silk_touch && _ore.support.silk_touch) {
       // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
       splitGroups(set.size).forEach((group) => {
         dimension.spawnItem(new ItemStack(blockTypeIdRemoveLit, group), location)
       })
     } else {
-      const _ore = ore_map[blockTypeId as keyof typeof ore_map] || {
-        item: 'air',
-        xp: [0, 0],
-        probability: [0, 0]
-      }
       // Avoid modifying reference types
       const ore = {
         item: _ore.item,
@@ -131,7 +128,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
       }
 
       // add fortune
-      if (fortune) {
+      if (fortune && _ore.support.fortune) {
         const maxProbability = ore.probability.pop() as number
         ore.probability.push(maxProbability + fortune)
       }
