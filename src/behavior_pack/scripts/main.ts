@@ -38,7 +38,7 @@ world.afterEvents.playerBreakBlock.subscribe(async (e) => {
  */
 // eslint-disable-next-line max-statements
 async function digOre(player: Player, dimension: Dimension, location: Vector3, blockTypeId: string) {
-  const equipmentInventory = player.getComponent(EntityEquippableComponent.componentId)
+  const equipmentInventory = player.getComponent(EntityEquippableComponent.componentId) as EntityEquippableComponent
   if (!equipmentInventory) return
 
   const mainHand = equipmentInventory.getEquipmentSlot(EquipmentSlot.Mainhand)
@@ -50,14 +50,14 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     const pickaxe = pickaxe_level[currentSlotItem.typeId as keyof typeof pickaxe_level]
 
     // The player is not stalking or not holding an axe, one of the conditions is not met will end directly
-    if (!player.isSneaking || !currentSlotItem?.typeId.endsWith('_pickaxe')) return
+    if (!player.isSneaking || !currentSlotItem.hasTag('is_pickaxe')) return
 
     const survivalPlayer = isSurvivalPlayer(dimension, player)
 
     if (survivalPlayer) mainHand.lockMode = ItemLockMode.slot
 
-    const itemDurability = currentSlotItem.getComponent(ItemDurabilityComponent.componentId)
-    const enchantments = currentSlotItem.getComponent(ItemEnchantableComponent.componentId)
+    const itemDurability = currentSlotItem.getComponent(ItemDurabilityComponent.componentId) as ItemDurabilityComponent
+    const enchantments = currentSlotItem.getComponent(ItemEnchantableComponent.componentId) as ItemEnchantableComponent
 
     if (!enchantments || !itemDurability) return
 
