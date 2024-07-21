@@ -113,6 +113,7 @@ async function digOre(player: Player, dimension: Dimension, location: Vector3, b
     }
 
     const _ore = ore_map[blockTypeId as keyof typeof ore_map]
+    if (!_ore) return
 
     if (silk_touch && _ore.support.silk_touch) {
       // Generate aggregated drops based on the number of item drops to reduce the number of physical drops in the game
